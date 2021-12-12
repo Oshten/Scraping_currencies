@@ -1,3 +1,4 @@
+import argparse
 from datetime import date, datetime
 from decimal import Decimal
 from pprint import pprint
@@ -84,6 +85,7 @@ def record_database(name_database, information):
 
 
 def run(currensy):
+    '''Запуск процесса скрапинга'''
     code_currency = find_code_currency(currency=currensy)
     if code_currency:
         statistics = collecting_statistics(code_currensy=code_currency)
@@ -91,5 +93,15 @@ def run(currensy):
             record_database(name_database=currensy, information=statistics)
             print('Данные сохранены')
 
+def add_argument():
+    '''Добавить аргумент через командную строку'''
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--currency', '-c', required=True)
+    argument = parser.parse_args()
+    return argument
+
 if __name__ == '__main__':
-    run('ЭКЮ')
+    argument = add_argument()
+    currency = argument.currency.replace('_', ' ')
+    print(currency)
+    run(currensy=currency)
